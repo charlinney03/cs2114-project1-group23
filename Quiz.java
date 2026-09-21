@@ -74,7 +74,8 @@ public class Quiz
 
         // where the code reached this point, user entered all cards. start
         // the quiz.
-        
+
+        System.out.println("Cards are all set! Generating Quiz...");
         
         
         
