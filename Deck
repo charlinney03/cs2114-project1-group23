@@ -1,0 +1,75 @@
+
+package cards;
+
+/*
+Deck class extending Flashcard that allows the user to
+review and edit ArrayList of Flashcard objects. 
+ */
+public class Deck() extends Flashcard {
+
+
+    private ArrayList<Flashcard> cards;
+
+    /*
+    creates Deck object from Flashcards
+     */
+    public Deck(ArrayList<FlashCard> cards) {
+
+        this.cards = new ArrayList<FlashCard>(cards);
+    }
+
+    /*
+    creates Deck from user file
+    */
+    public Deck(File f) {
+
+    }
+
+    /*
+    Randomizes Flashcards in Deck
+    */
+    public void shuffle()
+    {
+        if (cards.size() <= 4)
+     {
+            throw new IllegalArgumentException("Needs more cards.");
+     }
+
+        ArrayList<Flashcard> original = new ArrayList<Flashcard>(cards);
+
+        while (list.equals(original))
+        {
+            for (int i = 0; i <cards.size(); i++)
+            {
+                int randomIndex = (int)(Math.random() *cards.size());
+
+             Flashcard temp =cards.get(i);
+               cards.set(i,cards.get(randomIndex));
+               cards.set(randomIndex, temp);
+        }
+    }
+}
+    /*
+    Removes the last card in Deck
+    */
+    public void remove() {
+
+       cards.pop();
+
+    }
+
+    /*
+    Make Quiz() with char value of "B"/"b"
+    */
+    public void review() {
+
+    }
+
+    /*
+    Returns size/amount of Flashcards in Deck
+    */
+    public int size() {
+
+        return cards.size();
+    }
+}
