@@ -1,23 +1,23 @@
-
 package cards;
 
-/*
-Deck class extending Flashcard that allows the user to
-review and edit ArrayList of Flashcard objects. 
- */
-public class Deck() extends Flashcard {
+import java.util.ArrayList;
 
-
+public class Deck extends Flashcard {
+    
+    
+    
     private ArrayList<Flashcard> cards;
 
+    
     /*
     creates Deck object from Flashcards
      */
-    public Deck(ArrayList<FlashCard> cards) {
+    public Deck(ArrayList<Flashcard> list) {
 
-        this.cards = new ArrayList<FlashCard>(cards);
+        this.cards = new ArrayList<> (list);
     }
 
+    
     /*
     creates Deck from user file
     */
@@ -25,6 +25,7 @@ public class Deck() extends Flashcard {
 
     }
 
+    
     /*
     Randomizes Flashcards in Deck
     */
@@ -35,15 +36,15 @@ public class Deck() extends Flashcard {
             throw new IllegalArgumentException("Needs more cards.");
      }
 
-        ArrayList<Flashcard> original = new ArrayList<Flashcard>(cards);
+        ArrayList<Flashcard> original = new ArrayList<>(cards);
 
-        while (list.equals(original))
+        while (cards.equals(original))
         {
             for (int i = 0; i <cards.size(); i++)
             {
-                int randomIndex = (int)(Math.random() *cards.size());
+                int randomIndex = (int)(Math.random() * cards.size());
 
-             Flashcard temp =cards.get(i);
+             Flashcard temp = cards.get(i);
                cards.set(i,cards.get(randomIndex));
                cards.set(randomIndex, temp);
         }
@@ -54,7 +55,7 @@ public class Deck() extends Flashcard {
     */
     public void remove() {
 
-       cards.pop();
+       cards.remove(cards.size()-1);
 
     }
 
@@ -62,7 +63,7 @@ public class Deck() extends Flashcard {
     Make Quiz() with char value of "B"/"b"
     */
     public void review() {
-
+        
     }
 
     /*
