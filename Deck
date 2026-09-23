@@ -2,10 +2,9 @@ package cards;
 
 import java.util.ArrayList;
 
-public class Deck extends Flashcard {
+public class Deck {
     
-    
-    
+
     private ArrayList<Flashcard> cards;
 
     
@@ -41,6 +40,38 @@ public class Deck extends Flashcard {
         }
     }
 }
+    /*
+    Takes in user file to create Deck
+    */
+    public Deck(File f) throws FileNotFoundException {
+
+        // new empty arraylist
+        cards = new ArrayList<>();
+        // new scanner to read file
+        Scanner scanner = new Scanner(f);
+
+        // while the file has another line
+        while(scanner.hasNextLine()) {
+            
+            String line = scanner.nextLine();
+
+            // splits the file into term and def for every colon
+            // stores in an array
+            String[] parts = line.split(":", 2);
+
+            // if it was correctly split into two parts
+            if (parts.length == 2) {
+                
+                String term = parts[0];
+                String def = parts[1];
+
+                cards.add(new Flashcard(term, def));
+            }
+        }
+
+        // ends scanner
+        scanner.close();
+    }
     /*
     Removes the last card in Deck
     */
