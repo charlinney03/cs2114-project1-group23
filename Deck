@@ -16,15 +16,6 @@ public class Deck extends Flashcard {
 
         this.cards = new ArrayList<> (list);
     }
-
-    
-    /*
-    creates Deck from user file
-    */
-    public Deck(File f) {
-
-    }
-
     
     /*
     Randomizes Flashcards in Deck
@@ -44,7 +35,7 @@ public class Deck extends Flashcard {
             {
                 int randomIndex = (int)(Math.random() * cards.size());
 
-             Flashcard temp = cards.get(i);
+               Flashcard temp = cards.get(i);
                cards.set(i,cards.get(randomIndex));
                cards.set(randomIndex, temp);
         }
