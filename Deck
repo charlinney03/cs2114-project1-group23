@@ -1,0 +1,115 @@
+package cards;
+
+import java.util.ArrayList;
+import java.util.File;
+import java.util.FileNotFoundException;
+import java.util.Scanner;
+
+public class Deck {
+    
+
+    private ArrayList<Flashcard> cards;
+
+    
+    /*
+    creates Deck object from Flashcards
+    @param ArrayList<Flashcard> list
+     */
+    public Deck(ArrayList<Flashcard> list) {
+
+        this.cards = new ArrayList<>(list);
+    }
+    
+    /*
+    Randomizes Flashcards in Deck
+    */
+    public void shuffle()
+    {
+        if (cards.size() <= 4)
+     {
+            throw new IllegalArgumentException("Needs more cards.");
+     }
+
+        ArrayList<Flashcard> original = new ArrayList<>(cards);
+
+        while (cards.equals(original))
+        {
+            for (int i = 0; i <cards.size(); i++)
+            {
+                int randomIndex = (int)(Math.random() * cards.size());
+
+               Flashcard temp = cards.get(i);
+               cards.set(i,cards.get(randomIndex));
+               cards.set(randomIndex, temp);
+        }
+    }
+    }
+    /*
+    Takes in user file to create Deck
+    @param f
+    */
+    public Deck(File f) throws FileNotFoundException {
+
+        // new empty arraylist
+        cards = new ArrayList<>();
+        // new scanner to read file
+        Scanner scanner = new Scanner(f);
+
+
+        // while the file has another line
+        while(scanner.hasNextLine()) {
+            
+            String line = scanner.nextLine();
+
+            // splits the file into term and def for every colon
+            // stores in an array
+            String[] parts = line.split(":", 2);
+
+            // if it was correctly split into two parts
+            if (parts.length == 2) {
+                
+                String term = parts[0];
+                String def = parts[1];
+
+                cards.add(new Flashcard(term, def));
+            }
+        }
+
+        // ends scanner
+        scanner.close();
+    }
+    /*
+    Removes the last card in Deck
+    */
+    public void remove() {
+
+       cards.remove(cards.size()-1);
+
+    }
+
+    /*
+    Make Quiz() with int value
+    */
+    public Deck review()
+    {
+    ArrayList<Flashcard> reviewCards = new ArrayList<Flashcard>();
+
+    for (Flashcard card : cards)
+    {
+        if (card.getDifficulty() > 0)
+        {
+            reviewCards.add(card);
+        }
+    }
+
+    return new Deck(reviewCards);
+    }
+
+    /*
+    Returns size/amount of Flashcards in Deck
+    */
+    public int size() {
+
+        return cards.size();
+    }
+}

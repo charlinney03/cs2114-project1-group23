@@ -1,0 +1,59 @@
+
+package cards;
+
+/*
+Flashcard class represents a flashcard with one term and
+one definition that tracks its own difficulty.
+*/
+public class Flashcard() {
+
+    private String term;
+    private String def;
+    private int difficulty;
+
+    /*
+    Creates Flashcard object
+     */
+    public Flashcard(String term, String def) {
+        
+        this.term = term;
+        this.def = def;
+        difficulty = 0;
+    }
+
+    /*
+    Gets term
+     */
+    public String getTerm() {
+        return term;
+    }
+
+    /*
+    Gets def
+     */
+    public String getDef() {
+        return def;
+    }
+
+    /*
+    Gets difficulty
+     */
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    /*
+    Increases difficulty of card
+     */
+    public void increaseDifficulty() {
+        difficulty++;
+    }
+
+    /*
+    Turns term and def into string
+     */
+    @Override
+    public String toString() {
+        return term + " : " + def;
+    }
+}
