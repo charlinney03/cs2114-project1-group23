@@ -1,6 +1,9 @@
 package cards;
 
 import java.util.ArrayList;
+import java.util.File;
+import java.util.FileNotFoundException;
+import java.util.Scanner;
 
 public class Deck {
     
@@ -10,10 +13,11 @@ public class Deck {
     
     /*
     creates Deck object from Flashcards
+    @param ArrayList<Flashcard> list
      */
     public Deck(ArrayList<Flashcard> list) {
 
-        this.cards = new ArrayList<> (list);
+        this.cards = new ArrayList<>(list);
     }
     
     /*
@@ -39,9 +43,10 @@ public class Deck {
                cards.set(randomIndex, temp);
         }
     }
-}
+    }
     /*
     Takes in user file to create Deck
+    @param f
     */
     public Deck(File f) throws FileNotFoundException {
 
@@ -49,6 +54,7 @@ public class Deck {
         cards = new ArrayList<>();
         // new scanner to read file
         Scanner scanner = new Scanner(f);
+
 
         // while the file has another line
         while(scanner.hasNextLine()) {
@@ -82,10 +88,21 @@ public class Deck {
     }
 
     /*
-    Make Quiz() with char value of "B"/"b"
+    Make Quiz() with int value
     */
-    public void review() {
-        
+    public Deck review()
+    {
+    ArrayList<Flashcard> reviewCards = new ArrayList<Flashcard>();
+
+    for (Flashcard card : cards)
+    {
+        if (card.getDifficulty() > 0)
+        {
+            reviewCards.add(card);
+        }
+    }
+
+    return new Deck(reviewCards);
     }
 
     /*
