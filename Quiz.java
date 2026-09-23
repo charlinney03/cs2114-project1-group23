@@ -1,4 +1,6 @@
 package cards;
+
+import java.util.ArrayList;
 import java.util.Scanner; // Import the Scanner Class
 
 // -------------------------------------------------------------------------
@@ -11,22 +13,18 @@ import java.util.Scanner; // Import the Scanner Class
  */
 public class Quiz
 {
-    // ~ Fields ................................................................
-    static int questionCount;
-    static int userWantsMore;
+
     // this way so every method in the Quiz class can access and use Scanner
     private static Scanner scanner = new Scanner(System.in);
+    private static Deck deck = new Deck();
 
+    // ~Public Methods ........................................................
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
+     * main method
      * 
      * @param args
      */
-
-    // ~ Constructors ..........................................................
-
-    // ~Public Methods ........................................................
     public static void main(String[] args)
     {
 
@@ -34,8 +32,8 @@ public class Quiz
             "Welcome to Memorix! You will create flashcards and test it. "
                 + "You need to make more than four cards to start the quiz.");
 
-        questionCount = 0;
-        userWantsMore = -1;
+        int questionCount = 0;
+        int userWantsMore = -1;
 
         while (questionCount < 4) // just force user to make 4 cards, no other
                                   // options
@@ -45,7 +43,7 @@ public class Quiz
                 promptForDef("Enter the definition of the terminology: ");
             questionCount++;
 
-            super(term, def); // pass into Deck's constructor
+            deck.add(new Flashcard(term, def));
 
         }
 
@@ -64,22 +62,113 @@ public class Quiz
                 String def =
                     promptForDef("Enter the definition of the terminology: ");
                 questionCount++;
-                
-                super(term, def); // pass into Deck's constructor
-            }
 
-            
+                deck.add(new Flashcard(term, def));
+            }
 
         }
 
         // where the code reached this point, user entered all cards. start
         // the quiz.
 
-        System.out.println("Cards are all set! Generating Quiz...");
-        
-        
-        
+        runQuiz(deck);
 
+    }
+
+
+    private static void runQuiz(Deck currentDeck)
+    {
+        currentDeck.shuffle();
+
+        Deck missed = new Deck(); // cards the user got wrong, for the next
+                                  // round
+        int correct = 0;
+        int wrong = 0;
+
+        for (int i = 0; i < currentDeck.size(); i++)
+        {
+            Flashcard card = currentDeck.get(i);
+            System.out.print("Term: " + card.getTerm() + "\nYour answer: ");
+            String answer = scanner.nextLine();
+
+            if (answer.trim().equalsIgnoreCase(card.getDef().trim()))
+            {
+                System.out.println("Correct!");
+                correct++;
+            }
+            else
+            {
+                System.out
+                    .println("Incorrect. The answer was: " + card.getDef());
+                card.increaseDifficulty();
+                missed.add(card);
+                wrong++;
+            }
+        }
+
+        System.out.println(
+            "You got " + correct + " correct and " + wrong + " wrong.");
+
+        if (missed.size() > 0)
+        {
+            System.out.println("Let's review the ones you missed.");
+            // shuffle() requires more than 4 cards, so only shuffle if enough
+            // remain
+            if (missed.size() > 4)
+            {
+                runQuiz(missed);
+            }
+            else
+            {
+                runQuizNoShuffle(missed);
+            }
+        }
+        else
+        {
+            System.out.println("You got everything right! Great job.");
+        }
+    }
+
+
+    private static void runQuizNoShuffle(Deck currentDeck)
+    {
+        Deck missed = new Deck();
+        int correct = 0;
+        int wrong = 0;
+
+        for (int i = 0; i < currentDeck.size(); i++)
+        {
+            Flashcard card = currentDeck.get(i);
+            System.out.print("Term: " + card.getTerm() + "\nYour answer: ");
+            String answer = scanner.nextLine();
+
+            if (answer.trim().equalsIgnoreCase(card.getDef().trim()))
+            {
+                System.out.println("Correct!");
+                correct++;
+            }
+            else
+            {
+                System.out
+                    .println("Incorrect. The answer was: " + card.getDef());
+                card.increaseDifficulty();
+                missed.add(card);
+                wrong++;
+            }
+        }
+
+        System.out.println(
+            "You got " + correct + " correct and " + wrong + " wrong.");
+
+        if (missed.size() > 0)
+        {
+            System.out.println("Let's review the ones you missed.");
+            runQuizNoShuffle(missed);
+        }
+        else
+        {
+            System.out.println("You got everything right! Great job.");
+        }
     }
 
 
@@ -131,7 +220,8 @@ public class Quiz
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
+     * This method is for asking if the user wants to make more cards, 
+     * or start the quiz
      * 
      * @param more
      * @return result
